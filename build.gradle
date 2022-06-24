@@ -1,0 +1,84 @@
+import dependencies.Versions
+
+apply plugin: "com.github.ben-manes.versions"
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'org.jacoco:org.jacoco.core:0.8.7'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.1.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.39.0"
+    }
+}
+
+allprojects {
+    repositories {
+        // Needs to go first to get specialty libraries https://stackoverflow.com/a/48438866/137744
+        google()
+
+        mavenCentral()
+
+        maven { url 'https://oss.sonatype.org/content/groups/public' }
+        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://staging.dev.medicmobile.org/_couch/maven-repo'
+            metadataSources { artifact() }
+        }
+
+        // Local repo for dependencies that only existed in the defunct JCenter repo
+        maven {
+          url "${rootDir}/jcenter-local-m2"
+        }
+    }
+}
+
+configurations.all {
+    transitive = true
+}
+
+subprojects {
+    tasks.withType(Test) {
+       minHeapSize = '512m'
+       maxHeapSize = project.properties['test.heap.max']
+    }
+}
+
+task checkAll(type: GradleBuild) {
+    tasks = ['checkCode', 'checkTests']
+}
+
+task checkCode(type: GradleBuild) {
+    tasks = ['pmd', 'ktlintCheck', 'checkstyle', 'lintDebug']
+}
+
+task checkTests(type: GradleBuild) {
+    tasks = ['testDebugUnitTest', 'connectedDebugAndroidTest']
+}
+
+task checkFeature(type: GradleBuild) {
+    tasks = ["connectedDebugAndroidTest"]
+    startParameter.projectProperties = ["android.testInstrumentationRunnerArguments.package": "org.odk.collect.android.feature"]
+}
+
+task checkRegression(type: GradleBuild) {
+    tasks = ["connectedDebugAndroidTest"]
+    startParameter.projectProperties = ["android.testInstrumentationRunnerArguments.package": "org.odk.collect.android.regression"]
+}
+
+task checkInstrumented(type: GradleBuild) {
+    tasks = ["connectedDebugAndroidTest"]
+    startParameter.projectProperties = ["android.testInstrumentationRunnerArguments.package": "org.odk.collect.android.instrumented"]
+}

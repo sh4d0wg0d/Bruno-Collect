@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "640412404956",
+    "firebase_url": "https://opendatakit-forks.firebaseio.com",
+    "project_id": "opendatakit-forks",
+    "storage_bucket": "opendatakit-forks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640412404956:android:730483f389563845cb7819",
+        "android_client_info": {
+          "package_name": "org.odk.collect.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289002196803-c6nm08ncd9f5fj28rjhhtpcg1p8hu4jo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJu05C359XvFovOMrrJ0xJ4bCYzLvq-yI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289002196803-3qsuscus208uusllb7vir39lenkbricd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

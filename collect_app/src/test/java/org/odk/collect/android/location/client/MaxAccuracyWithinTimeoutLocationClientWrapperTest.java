@@ -124,7 +124,8 @@ public class MaxAccuracyWithinTimeoutLocationClientWrapperTest {
 
     @Test
     public void timeoutSecondsPassing_ShouldStopUpdates() {
-        int timeoutSeconds = 5;
+        //int timeoutSeconds = 5;
+        int timeoutSeconds = 15; // EDITED by sh4d0w. Attempt to increase submission timeout
         maxAccuracyLocationClient.requestLocationUpdates(timeoutSeconds);
         RobolectricHelpers.runLooper();
         advanceBy(timeoutSeconds, TimeUnit.SECONDS);
@@ -141,7 +142,7 @@ public class MaxAccuracyWithinTimeoutLocationClientWrapperTest {
 
     @Test
     public void requestingLocationUpdatesAgain_ShouldResetTimeout() {
-        int timeoutSeconds = 5;
+        int timeoutSeconds = 15;
         maxAccuracyLocationClient.requestLocationUpdates(timeoutSeconds);
         RobolectricHelpers.runLooper();
 

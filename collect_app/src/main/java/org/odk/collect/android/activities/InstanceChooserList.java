@@ -68,8 +68,8 @@ public class InstanceChooserList extends InstanceListActivity implements Adapter
         DaggerUtils.getComponent(this).inject(this);
 
         String formMode = getIntent().getStringExtra(ApplicationConstants.BundleKeys.FORM_MODE);
-        if (formMode == null || ApplicationConstants.FormModes.EDIT_SAVED.equalsIgnoreCase(formMode) || ApplicationConstants.FormModes.VIEW_SENT.equalsIgnoreCase(formMode)) { // EDITED by sh4d0w
-        //if (formMode == null || ApplicationConstants.FormModes.EDIT_SAVED.equalsIgnoreCase(formMode)) { // EDITED:
+        //if (formMode == null || ApplicationConstants.FormModes.EDIT_SAVED.equalsIgnoreCase(formMode) || ApplicationConstants.FormModes.VIEW_SENT.equalsIgnoreCase(formMode)) { // EDITED by sh4d0w
+        if (formMode == null || ApplicationConstants.FormModes.EDIT_SAVED.equalsIgnoreCase(formMode)) { // EDITED:
 
             setTitle(getString(R.string.review_data));
             editMode = true;
@@ -120,9 +120,9 @@ public class InstanceChooserList extends InstanceListActivity implements Adapter
                             c.getString(c.getColumnIndex(DatabaseInstanceColumns.CAN_EDIT_WHEN_COMPLETE));
 
                     boolean canEdit = status.equals(Instance.STATUS_INCOMPLETE)
-                            || status.equals(Instance.STATUS_SUBMITTED) // Edited by Sh4d0w
-                            || status.equals(Instance.STATUS_COMPLETE) // Edited by Sh4d0w
-                            || status.equals(Instance.STATUS_SUBMISSION_FAILED) // Edited by Sh4d0w
+                            //|| status.equals(Instance.STATUS_SUBMITTED) // Edited by Sh4d0w
+                            //|| status.equals(Instance.STATUS_COMPLETE) // Edited by Sh4d0w
+                            //|| status.equals(Instance.STATUS_SUBMISSION_FAILED) // Edited by Sh4d0w
                             || Boolean.parseBoolean(strCanEditWhenComplete);
                     if (!canEdit) {
                         createErrorDialog(getString(R.string.cannot_edit_completed_form),

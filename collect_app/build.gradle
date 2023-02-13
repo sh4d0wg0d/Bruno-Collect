@@ -7,7 +7,8 @@ import com.android.ddmlib.DdmPreferences
 import dependencies.Dependencies
 import dependencies.Versions
 
-DdmPreferences.setTimeOut(60000)
+//DdmPreferences.setTimeOut(60000)
+DdmPreferences.setTimeOut(160000)    // EDITED by sh4d0w. Attempt to increase submission timeout
 
 ant.condition(property: 'os', value: 'windows') {
     os(family: 'windows')

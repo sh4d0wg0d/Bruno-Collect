@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+  <!--Text for the expiration alert title on the main screen.-->
+  <string name="expired_alert_title">Seu período de experiência para este App expirou!</string>
+  <!--Text for the expiration alert message on the main screen.-->
+  <string name="expired_alert_message">Insira o código para continuar usando o App</string>
   <!--Text for an action button on the main screen.-->
   <string name="enter_data">Formulário em Branco</string>
   <!--Text for an action button on the main screen.-->

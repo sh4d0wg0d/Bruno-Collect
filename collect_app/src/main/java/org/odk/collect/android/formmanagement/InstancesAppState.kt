@@ -42,7 +42,7 @@ class InstancesAppState(
         val editableInstances = instancesRepository.getCountByStatus(
             Instance.STATUS_INCOMPLETE,
             Instance.STATUS_COMPLETE,
-            Instance.STATUS_SUBMITTED // EDITED by sh4d0w: Hopefully we can edit submitted instances
+            //Instance.STATUS_SUBMITTED // EDITED by sh4d0w: Hopefully we can edit submitted instances
 
         )
 

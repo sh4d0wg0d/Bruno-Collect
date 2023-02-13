@@ -16,6 +16,8 @@ package org.odk.collect.android.activities;
 
 import static org.odk.collect.androidshared.ui.DialogFragmentUtils.showIfNotShowing;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -72,26 +75,58 @@ public class MainMenuActivity extends CollectAbstractActivity {
     SettingsProvider settingsProvider;
 
     private MainMenuViewModel mainMenuViewModel;
-
     private CurrentProjectViewModel currentProjectViewModel;
-
-    private Boolean isExpired(){
+    private boolean expired = false;
+    private void checkExpiration(){
         // Date and time
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime expirationDateTime =  LocalDateTime.of(2023, 1, 1, 0, 0, 0);
-
-        if(expirationDateTime.isBefore(currentDateTime)){
-            // expirationDateTime comes before currentDateTime
-            return true;
+        if(expirationDateTime.isBefore(currentDateTime)){// expirationDateTime comes before currentDateTime
+            expired = true;
         }
-        return false;
+    }
+    private boolean isExpired(){
+        return expired;
+    }
+    private void showExpiredAlert(){
+        // Create the object of AlertDialog Builder class
+        AlertDialog.Builder alert  = new AlertDialog.Builder(MainMenuActivity.this);
+        // Set Alert Title
+        //R.string.expired_alert_title
+        alert .setTitle(R.string.expired_alert_title);
+        // Set the message show for the Alert time
+        alert .setMessage(R.string.expired_alert_message);
+        // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+        alert .setCancelable(false);
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = String.valueOf(input.getText());
+                if(!value.equals("123")){
+                    finish();
+                }
+                expired = false;
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+                finish();
+            }
+        });
+        alert.show();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        checkExpiration();
         if(isExpired()){
-            System.exit(0);
+            showExpiredAlert();
         }
         new ThemeUtils(this).setDarkModeForCurrentProject();
 
@@ -129,7 +164,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if(isExpired()){
-                    System.exit(0);
+                    //System.exit(0);
                 }
                 Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
                 i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
@@ -145,7 +180,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if(isExpired()){
-                    System.exit(0);
+                    //System.exit(0);
                 }
                 Intent i = new Intent(getApplicationContext(),
                         InstanceUploaderListActivity.class);
@@ -159,7 +194,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if(isExpired()){
-                    System.exit(0);
+                    //System.exit(0);
                 }
                 Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
                 i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
@@ -175,7 +210,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if(isExpired()){
-                    System.exit(0);
+                    //System.exit(0);
                 }
                 String protocol = settingsProvider.getUnprotectedSettings().getString(ProjectKeys.KEY_PROTOCOL);
                 Intent i;
@@ -202,7 +237,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if(isExpired()){
-                    System.exit(0);
+                    //System.exit(0);
                 }
                 Intent i = new Intent(getApplicationContext(),
                         DeleteSavedFormActivity.class);
@@ -251,7 +286,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     @Override
     protected void onResume() {
         if(isExpired()){
-            System.exit(0);
+            //System.exit(0);
         }
         super.onResume();
         currentProjectViewModel.refresh();

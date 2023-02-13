@@ -91,8 +91,8 @@ public class InstanceAutoSender {
     private List<Instance> getInstancesToAutoSend(FormsRepository formsRepository, InstancesRepository instancesRepository, Settings generalSettings) {
         boolean isAutoSendAppSettingEnabled = !generalSettings.getString(ProjectKeys.KEY_AUTOSEND).equals("off");
         List<Instance> toUpload = new ArrayList<>();
-        //for (Instance instance : instancesRepository.getAllByStatus(Instance.STATUS_COMPLETE, Instance.STATUS_SUBMISSION_FAILED)) {
-        for (Instance instance : instancesRepository.getAllByStatus(Instance.STATUS_COMPLETE, Instance.STATUS_SUBMITTED, Instance.STATUS_SUBMISSION_FAILED)) { // EDITED by sh4d0w: Hopefully we can edit submitted instances
+        for (Instance instance : instancesRepository.getAllByStatus(Instance.STATUS_COMPLETE, Instance.STATUS_SUBMISSION_FAILED)) {
+        //for (Instance instance : instancesRepository.getAllByStatus(Instance.STATUS_COMPLETE, Instance.STATUS_SUBMITTED, Instance.STATUS_SUBMISSION_FAILED)) { // EDITED by sh4d0w: Hopefully we can edit submitted instances
             if (shouldFormBeSent(formsRepository, instance.getFormId(), instance.getFormVersion(), isAutoSendAppSettingEnabled)) {
                 toUpload.add(instance);
             }

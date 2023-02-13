@@ -75,6 +75,8 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
+import androidx.lifecycle.ViewModelProvider; // Edited by sh4d0w
+import org.odk.collect.android.activities.viewmodels.FormDownloadListViewModel;// Edited by sh4d0w
 import org.odk.collect.android.adapters.FormListAdapter;
 import android.widget.ListView;
 
@@ -98,6 +100,10 @@ public class GoogleDriveActivity extends FormListActivity implements View.OnClic
     private Button rootButton;
     private Button backButton;
     private Button downloadButton;
+    private Button toggleButton;    // Edited by sh4d0w
+    private final ArrayList<HashMap<String, String>> filteredFormList = new ArrayList<>(); // Edited by sh4d0w
+    private FormDownloadListViewModel viewModel;    // Edited by sh4d0w
+    private static final String FORMDETAIL_KEY = "formdetailkey";   // Edited by sh4d0w
     private Stack<String> currentPath = new Stack<>();
     private final Stack<String> folderIdStack = new Stack<>();
     private String alertMsg;
@@ -230,6 +236,24 @@ public class GoogleDriveActivity extends FormListActivity implements View.OnClic
         downloadButton = findViewById(R.id.download_button);
         downloadButton.setOnClickListener(this);
 
+        // Edit by sh4d0w
+
+        toggleButton = findViewById(R.id.toggle_button);
+        toggleButton.setEnabled(false);
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadButton.setEnabled(toggleChecked(listView));
+                toggleButtonLabel(toggleButton, listView);
+                viewModel.clearSelectedFormIds();
+                if (listView.getCheckedItemCount() == listView.getCount()) {
+                    for (HashMap<String, String> map : viewModel.getFormList()) {
+                        viewModel.addSelectedFormId(map.get(FORMDETAIL_KEY));
+                    }
+                }
+            }
+        });
+
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setItemsCanFocus(false);
 
@@ -350,7 +374,9 @@ public class GoogleDriveActivity extends FormListActivity implements View.OnClic
         } else {
             adapter.notifyDataSetChanged();
         }
-
+        toggleButton.setEnabled(!filteredFormList.isEmpty());
+        checkPreviouslyCheckedItems();
+        toggleButtonLabel(toggleButton, listView);
         checkPreviouslyCheckedItems();
     }
 
@@ -612,8 +638,8 @@ public class GoogleDriveActivity extends FormListActivity implements View.OnClic
                     selectedInstances.clear();
                 }
                 toggleButtonLabel(toggleButton, getListView());
-                deleteButton.setEnabled(allChecked);
-                break;*/    //Edited by sh4d0w: Attemp to add function to select all button
+                //deleteButton.setEnabled(allChecked);
+                break;    //Edited by sh4d0w: Attempt to add function to select all button*/
             case R.id.download_button:
                 getFiles();
                 break;
